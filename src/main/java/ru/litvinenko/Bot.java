@@ -1,6 +1,7 @@
 package ru.litvinenko;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -41,7 +42,8 @@ public class Bot extends TelegramLongPollingBot {
                 default:
                     try{
                         sendMsg(message, Weather.getWeather(message.getText()));
-                        sendImage(message);
+//                        sendImage(message);
+                        sendGif(message);
                     } catch (IOException e){
                         sendMsg(message, "Для помощи введите /help");
                     }
@@ -49,18 +51,35 @@ public class Bot extends TelegramLongPollingBot {
 
         }
     }
-    private void sendImage(Message message) throws IOException {
-
-        SendPhoto sendPhotoRequest = new SendPhoto();
-        sendPhotoRequest.setChatId(message.getChatId());
-        sendPhotoRequest.setPhoto(new InputFile(SendImage.sendImgFromUrl(message.getText())));
+//    private void sendImage(Message message) throws IOException {
+//
+//        SendPhoto sendPhotoRequest = new SendPhoto();
+//        sendPhotoRequest.setChatId(message.getChatId());
+//        sendPhotoRequest.setPhoto(new InputFile(SendImage.sendImgFromUrl(message.getText())));
+//        try {
+//
+//            execute(sendPhotoRequest);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    private void sendGif(Message message) {
+        SendAnimation animation = new SendAnimation();
+        animation.setChatId(message.getChatId());
         try {
-
-            execute(sendPhotoRequest);
+            animation.setAnimation(new InputFile(SendGif.sendGif(message.getText())));
+//            animation.setAnimation(new InputFile("https://media1.giphy.com/media/VJMkd4eQJ526DTjzga/giphy.gif?cid=3144d253kcg4u2uk7dw1aw0uegroax4e10k03e41qeilvuwm&rid=giphy.gif&ct=g"));
+            System.out.println(SendGif.sendGif(message.getText()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            execute(animation);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
+
     private void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);

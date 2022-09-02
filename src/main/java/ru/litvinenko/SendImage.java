@@ -1,9 +1,5 @@
 package ru.litvinenko;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -18,10 +14,11 @@ public class SendImage {
         while (scanner.hasNext()) {
             metCast += scanner.nextLine();
         }
-        CustomJSONParser customJSONParser = new CustomJSONParser();
+        CustomJSONParserWeather customJSONParser = new CustomJSONParserWeather();
         Model model = customJSONParser.parse(metCast);
-        String photoUrl = "https://openweathermap.org/img/wn/" +model.getIcon()+".png";
+        String weatherType = model.getMain();
+        System.out.println(weatherType);
 
-return photoUrl;
+return weatherType;
     }
 }

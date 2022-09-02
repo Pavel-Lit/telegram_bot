@@ -3,7 +3,7 @@ package ru.litvinenko;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class CustomJSONParser {
+public class CustomJSONParserWeather {
 
     public Model parse(String json){
         Model model = new Model();
